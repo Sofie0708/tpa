@@ -19,8 +19,10 @@ class EventoController extends Controller
     public function show($id)
     {
         $evento = Evento::findOrFail($id);
-        
+
+        // TICKET #006: Filtrando perguntas aprovadas (is_public = true)
         $perguntas = Pergunta::where('evento_id', $evento->id)
+        ->where('is_public', true)
         ->with('user')
         ->latest()
         ->paginate(10);
