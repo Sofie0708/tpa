@@ -19,8 +19,9 @@ class EventoController extends Controller
     public function show($id)
     {
         $evento = Evento::findOrFail($id);
-
+        
         $perguntas = Pergunta::where('evento_id', $evento->id)
+        ->with('user')
         ->latest()
         ->paginate(10);
 
