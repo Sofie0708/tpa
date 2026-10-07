@@ -7,6 +7,7 @@ use App\Models\Evento;
 use App\Models\Pergunta;
 use App\Http\Requests\StorePerguntaRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EventoController extends Controller
 {
@@ -53,5 +54,15 @@ class EventoController extends Controller
     public function store(EventoFormRequest $request){
         $evento = $request->user()->eventos()->create($request->validated());
         return redirect()->route('eventos.show', $evento->id);
+    }
+
+    public function destroy(Pergunta $pergunta)
+    {
+        // TICKET 3: Valida a Policy antes de deletar
+        Gate::authorize('delete', $pergunta);
+
+        $pergunta->delete();
+
+        return back()->with('sucesso', 'Pergunta removida com sucesso!');
     }
 }
