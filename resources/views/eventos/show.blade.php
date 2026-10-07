@@ -36,15 +36,18 @@
         </div>
 
         @forelse($perguntas as $pergunta)
-            <div class="card mb-3 shadow-sm border-start border-4 border-primary">
-                <div class="card-body">
-                    <p class="fs-5 mb-2 text-white">{{ $pergunta->texto }}</p>
-                    <div class="d-flex justify-content-between align-items-center text-secondary small">
-                        <span>Status: <span class="badge bg-success">{{ $pergunta->status }}</span></span>
-                        <span>{{ $pergunta->created_at->format('d/m/Y H:i') }}</span>
-                    </div>
+        <div class="card mb-3 shadow-sm border-start border-4 border-primary">
+            <div class="card-body">
+                <p class="fs-5 mb-2 text-white">{{ $pergunta->texto }}</p>
+                <div class="d-flex justify-content-between align-items-center text-secondary small">
+                    <span>
+                        Autor: <strong>{{ $pergunta->user->name ?? 'Anônimo' }}</strong> |
+                        Status: <span class="badge bg-success">{{ $pergunta->status }}</span>
+                    </span>
+                    <span>{{ $pergunta->created_at->format('d/m/Y H:i') }}</span>
                 </div>
             </div>
+        </div>
         @empty
             <div class="alert alert-dark text-center p-4">
                 Nenhuma pergunta enviada ainda. Seja o primeiro!
