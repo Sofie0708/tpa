@@ -54,15 +54,28 @@
 
         <!-- Cards das Perguntas com margem e estilo de balão de chat -->
         @forelse($perguntas as $pergunta)
-            <div class="mb-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow border-l-4 border-blue-500">
-                <p class="text-lg text-gray-800 dark:text-gray-100 mb-3">{{ $pergunta->conteudo }}</p>
-                <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                    <span>
-                        Autor: <strong class="text-gray-700 dark:text-gray-300">{{ $pergunta->user->name ?? 'Anônimo' }}</strong>
-                    </span>
+        <div class="mb-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow border-l-4 border-blue-500 flex justify-between items-start">
+            <div class="flex-1">
+                <p class="text-lg text-gray-800 dark:text-gray-100 mb-3">{{ $pergunta->texto }}</p>
+                <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 gap-2">
+                    <span>Autor: <strong class="text-gray-700 dark:text-gray-300">{{ $pergunta->user->name ?? 'Anônimo' }}</strong></span>
+                    <span>•</span>
                     <span>{{ $pergunta->created_at->format('d/m/Y H:i') }}</span>
                 </div>
             </div>
+
+            <!-- TICKET 4: Botão visível apenas para quem tem permissão de exclusão -->
+            @can('delete', $pergunta)
+                <form action="{{ route('perguntas.destroy', $pergunta->id) }}" method="POST" class="ml-4" onsubmit="return confirm('Tem certeza que deseja excluir esta pergunta?');">
+                    @csrf
+                    @method('DELETE')
+                    
+                    <x-danger-button>
+                        Excluir
+                    </x-danger-button>
+                </form>
+            @endcan
+        </div>
         @empty
             <div class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-center p-6 rounded-lg">
                 Nenhuma pergunta enviada ainda. Seja o primeiro!
