@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => Authenticate::class,
         ]);
     })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->redirectGuestsTo('/entrar');
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

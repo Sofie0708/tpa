@@ -3,6 +3,7 @@
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PerguntaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -12,6 +13,9 @@ Route::middleware('auth')->group(function () {
         ->name('eventos.store');
     Route::post('/eventos/{evento}/participar', [EventoController::class, 'toggleInscricao'])
         ->name('eventos.participar');
+    Route::post('/perguntas/{pergunta}/votar', [PerguntaController::class, 'votar'])
+        ->middleware('auth')
+        ->name('perguntas.votar');
 });
 
 Route::get('/', [EventoController::class, 'index'])->name('eventos.index');
@@ -20,6 +24,6 @@ Route::post('/eventos/{id}/perguntas', [EventoController::class, 'storePergunta'
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-Route::get('/login', [LoginController::class, 'create'])->name('login.create');
+Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');

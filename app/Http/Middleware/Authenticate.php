@@ -22,7 +22,7 @@ class Authenticate
             }
 
             // Se for uma requisição web comum, redireciona para o login
-            return redirect()->route('login.create')->with('error', 'Você precisa estar logado para acessar esta página.');
+            return redirect()->route('login')->with('error', 'Você precisa estar logado para acessar esta página.');
         }
 
         // Permite que a requisição prossiga
